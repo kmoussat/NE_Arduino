@@ -18,14 +18,16 @@
 #include <Bridge.h>
 #include <HttpClient.h>
 
+const int led1 = 13;
+
 void setup() {
   // Bridge takes about two seconds to start up
   // it can be helpful to use the on-board LED
   // as an indicator for when it has initialized
-  pinMode(13, OUTPUT);
-  digitalWrite(13, LOW);
+  pinMode(led1, OUTPUT);
+  digitalWrite(led1, LOW);
   Bridge.begin();
-  digitalWrite(13, HIGH);
+  digitalWrite(led1, HIGH);
 
   Serial.begin(9600);
 
@@ -39,14 +41,56 @@ void loop() {
   // Make a HTTP request:
   client.get("http://arduino.cc/asciilogo.txt");
 
+
   // if there are incoming bytes available
   // from the server, read them and print them:
-  while (client.available()) {
-    char c = client.read();
-    Serial.print(c);
+  String str = "";
+    char c;
+    int count=0;
+  while (client.available()) {  
+    c = client.read();
+        Serial.print(c);  
+    str += String(c);
+    count = int(str.length());
+
+  
+    blink(count);
+    
+  
   }
+  Serial.println("Nombre de caracteres en string");
+  Serial.println(str.length());
+
+  /*int count = int(str.length());
+  Serial.println("Nombre de caracteres en Int ");
+  Serial.println(count);
+
+
+  digitalWrite(led1, HIGH);
+  digitalWrite(led1, LOW);
+
+ blink(count);
+  */
   Serial.flush();
 
+
+  
   delay(10000);
+}
+
+
+void blink(int count)
+{
+ int  n = 100;
+double  timer=n/count;
+
+  for (int i = 0; i < count; i++)
+  {
+    digitalWrite(led1,HIGH);
+    delay(timer);
+    digitalWrite(led1,LOW);
+    delay(timer);
+    
+  }
 }
 
