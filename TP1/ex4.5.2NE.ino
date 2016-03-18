@@ -2,15 +2,15 @@
 
 //Rappel : Vars globales, on y a accès depuis toutes les fonctions
 Servo petitServo;	
-int servoPos = 0;	// Position du servo	s	
+int servoPos = 0;	// Position du servo	
 const int LDR = A0;	// On fait pareil que précédemment
 int LDRValue = 0;
 int value = 0;
 
 void setup()
 {
-petitServo.Attach(9);	
-petitServo.Write(servoPos);	
+petitServo.attach(9);	
+petitServo.write(servoPos);	
 }
 
 void loop()
@@ -19,16 +19,16 @@ void loop()
 	value = map(LDRValue, 0, 1023, 0, 100)
 	if (value>20)		//Au-dessus de 20%, on fait bouger le servomoteur
 	{
-		servoAct(*servoPos);	// Appel fonction avec en argument l’adresse de servoPos
+		servoAct();	// Appel fonction
 	}
-	Delay(100);
+	delay(1000);
 }
 
 //fonction permettant de faire tourner le servo en fonction de sa position actuelle
-void servoAct()	//On prend en argument l’adresse de la var de position
+void servoAct()
 {
 	if (servoPos==0) servoPos=180;	// La position passe d’un extrême à un autre
-	else pos=0;
+	else servoPos=0;
 
-	petitServo.Write(pos);	// Activation du servomoteur petitServo
+	petitServo.write(servoPos);	// Activation du servomoteur petitServo
 } 
